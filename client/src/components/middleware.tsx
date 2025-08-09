@@ -24,7 +24,12 @@ const Middleware = () => {
         }
       } catch (error) {
         console.error(error);
-        navigate("/sign-in");
+        if (
+          location.pathname != "/sign-in" &&
+          location.pathname != "/sign-up"
+        ) {
+          navigate("/sign-in");
+        }
         clearUser();
       }
     };

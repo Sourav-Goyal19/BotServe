@@ -1,8 +1,8 @@
 const Header = () => {
   return (
-    <header className="h-16 w-full border-b border-border/50 bg-card/20 backdrop-blur-sm px-4 flex items-center">
+    <header className="h-16 w-full border-b border-border/50 bg-card/30 backdrop-blur-sm px-4 flex items-center">
       <h3 className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-sidebar-primary text-2xl font-bold">
-        Chatbot Guruji
+        BotServe
       </h3>
     </header>
   );

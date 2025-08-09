@@ -4,6 +4,7 @@ import Fastify from "fastify";
 import fastifyCookie from "@fastify/cookie";
 import fastifyExpress from "@fastify/express";
 import userRoutes from "./routes/auth.route";
+import keyRoutes from "./routes/key.route";
 
 const PORT = 5000;
 
@@ -29,6 +30,7 @@ fastify.register(fastifyExpress).after(() => {
 });
 
 fastify.register(userRoutes, { prefix: "/api/user" });
+fastify.register(keyRoutes, { prefix: "/api/keys" });
 
 const start = async () => {
   try {

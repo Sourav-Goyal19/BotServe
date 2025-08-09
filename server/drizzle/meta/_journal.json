@@ -8,6 +8,27 @@
       "when": 1754567536687,
       "tag": "0000_tiresome_chameleon",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1754755114062,
+      "tag": "0001_flashy_falcon",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1754756041106,
+      "tag": "0002_broken_bloodstorm",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1754758794766,
+      "tag": "0003_safe_bloodaxe",
+      "breakpoints": true
     }
   ]
 }

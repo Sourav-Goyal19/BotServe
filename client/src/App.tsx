@@ -1,27 +1,23 @@
 import Chat from "./components/chat";
-// import Header from "./components/header";
-import SignIn from "./components/sign-in";
-import SignUp from "./components/sign-up";
-// import Sidebar from "./components/sidebar";
-import HomeChat from "./components/home-chat";
+import SignIn from "./app/sign-in/page";
+import SignUp from "./app/sign-up/page";
+import Dashboard from "./app/dashboard/page";
 import { Routes, Route } from "react-router-dom";
+import ApiKeys from "./app/dashboard/api-keys/page";
+import DashboardLayout from "./app/dashboard/layout";
 
 function App() {
   return (
-    <div>
-      <div className="h-screen w-full flex flex-col bg-background">
-        {/* <Header /> */}
-
-        <div className="flex flex-1 w-full overflow-hidden">
-          {/* <Sidebar /> */}
-          <Routes>
-            <Route path="/" element={<HomeChat />} />
-            <Route path="/sign-in" element={<SignIn />} />
-            <Route path="/sign-up" element={<SignUp />} />
-            <Route path="/chat/:id" element={<Chat />} />
-          </Routes>
-        </div>
-      </div>
+    <div className="bg-background">
+      <Routes>
+        <Route path="/sign-in" element={<SignIn />} />
+        <Route path="/sign-up" element={<SignUp />} />
+        <Route path="/dashboard" element={<DashboardLayout />}>
+          <Route element={<Dashboard />} />
+          <Route path="chat/:id" element={<Chat />} />
+          <Route path="api-keys" element={<ApiKeys />} />
+        </Route>
+      </Routes>
     </div>
   );
 }

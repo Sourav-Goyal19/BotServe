@@ -8,13 +8,13 @@ import { authMiddleware } from "../middlewares/auth.middleware";
 import { FastifyInstance, FastifyPluginOptions } from "fastify";
 
 const signupSchema = z.object({
-  name: z.string().min(1, "Name is Required"),
-  email: z.email("Invalid Email").min(1, "Email is Required"),
+  name: z.string().min(1, "Name is requestuired"),
+  email: z.email("Invalid Email").min(1, "Email is requestuired"),
   password: z.string().min(6, "Password must be atleast 6 characters long"),
 });
 
 const loginSchema = z.object({
-  email: z.email("Invalid Email").min(1, "Email is Required"),
+  email: z.email("Invalid Email").min(1, "Email is requestuired"),
   password: z.string().min(6, "Password must be atleast 6 characters long"),
 });
 
@@ -22,13 +22,13 @@ export function userRoutes(
   fastify: FastifyInstance,
   options: FastifyPluginOptions
 ) {
-  fastify.post("/signup", async (req, reply) => {
-    const body = req.body;
+  fastify.post("/signup", async (request, reply) => {
+    const body = request.body;
     const { error, data } = signupSchema.safeParse(body);
 
     if (error) {
       return reply.status(401).send({
-        error,
+        error: error.message,
         success: false,
       });
     }
@@ -61,13 +61,13 @@ export function userRoutes(
     }
   });
 
-  fastify.post("/login", async (req, reply) => {
-    const body = req.body;
+  fastify.post("/login", async (request, reply) => {
+    const body = request.body;
     const { error, data } = loginSchema.safeParse(body);
 
     if (error) {
       return reply.status(401).send({
-        error,
+        error: error.message,
         success: false,
       });
     }
@@ -117,35 +117,35 @@ export function userRoutes(
     }
   });
 
-  fastify.get("/one", { preHandler: [authMiddleware] }, async (req, reply) => {
-    try {
-      if (!req.user) {
-        reply.status(401).send({
-          error: "Session expired",
+  fastify.get(
+    "/one",
+    { preHandler: [authMiddleware] },
+    async (request, reply) => {
+      try {
+        if (!request.user) {
+          reply.status(401).send({
+            error: "Session expired",
+            success: false,
+          });
+          return;
+        }
+
+        const [user] = await db
+          .select()
+          .from(usersTable)
+          .where(eq(usersTable.id, request.user.id || ""));
+
+        reply.status(200).send({ user, success: true, message: "User found." });
+        return;
+      } catch (error) {
+        console.error("USER[GET]:", error);
+        reply.status(500).send({
+          error: "Something went wrong",
           success: false,
         });
-        return;
       }
-
-      const [user] = await db
-        .select()
-        .from(usersTable)
-        .where(eq(usersTable.id, req.user.id || ""));
-
-      reply.status(200).send({ user, success: true, message: "User found." });
-      return;
-    } catch (error) {
-      console.error("USER[GET]:", error);
-      reply.status(500).send({
-        error: "Something went wrong",
-        success: false,
-      });
     }
-  });
-
-  fastify.get("/test", (req, reply) => {
-    return { msg: "Hey there dude" };
-  });
+  );
 }
 
 export default userRoutes;

@@ -23,7 +23,7 @@ export const getUser = (token: string) => {
       const parsedUser = userSchema.partial().safeParse(decoded);
 
       if (parsedUser.success) {
-        const { password, apiKey, ...user } = parsedUser.data;
+        const { password, ...user } = parsedUser.data;
         return { user: user };
       } else {
         return { user: null };
