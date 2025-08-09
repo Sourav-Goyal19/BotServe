@@ -4,6 +4,7 @@ import { eq } from "drizzle-orm";
 import { db } from "../db/drizzle";
 import { usersTable } from "../db/schema";
 import { generateToken } from "../utils/jwt";
+import { authMiddleware } from "../middlewares/auth.middleware";
 import { FastifyInstance, FastifyPluginOptions } from "fastify";
 
 const signupSchema = z.object({
@@ -85,9 +86,9 @@ export function userRoutes(
           success: false,
         });
       }
-      const matchingreplyults = await bcrypt.compare(password, user.password);
+      const matchingresults = await bcrypt.compare(password, user.password);
 
-      if (!matchingreplyults) {
+      if (!matchingresults) {
         return reply.status(401).send({
           error: "Incorrect password",
           success: false,
@@ -97,6 +98,7 @@ export function userRoutes(
       const token = generateToken(user);
 
       reply.setCookie("token", token, {
+        path: "/",
         httpOnly: false,
         secure: process.env.NODE_ENV === "production",
         sameSite: "lax",
@@ -114,4 +116,36 @@ export function userRoutes(
         .send({ error: "Something went wrong", success: false });
     }
   });
+
+  fastify.get("/one", { preHandler: [authMiddleware] }, async (req, reply) => {
+    try {
+      if (!req.user) {
+        reply.status(401).send({
+          error: "Session expired",
+          success: false,
+        });
+        return;
+      }
+
+      const [user] = await db
+        .select()
+        .from(usersTable)
+        .where(eq(usersTable.id, req.user.id || ""));
+
+      reply.status(200).send({ user, success: true, message: "User found." });
+      return;
+    } catch (error) {
+      console.error("USER[GET]:", error);
+      reply.status(500).send({
+        error: "Something went wrong",
+        success: false,
+      });
+    }
+  });
+
+  fastify.get("/test", (req, reply) => {
+    return { msg: "Hey there dude" };
+  });
 }
+
+export default userRoutes;

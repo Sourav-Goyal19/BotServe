@@ -1,8 +1,12 @@
 import { z } from "zod";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import toast from "react-hot-toast";
+import { axiosIns } from "@/lib/axios";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import { useMutation } from "@tanstack/react-query";
 import { zodResolver } from "@hookform/resolvers/zod";
+
 import {
   Form,
   FormItem,
@@ -15,6 +19,7 @@ import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 
 const SignUp = () => {
+  const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
 
   const formSchema = z.object({
@@ -34,9 +39,37 @@ const SignUp = () => {
     resolver: zodResolver(formSchema),
   });
 
+  const signUpMutation = useMutation({
+    mutationFn: async (values: FormType) => {
+      const res = await axiosIns.post("/api/user/signup", {
+        ...values,
+      });
+
+      return res;
+    },
+  });
+
   const onSubmit = (values: FormType) => {
     setIsLoading(true);
     console.log(values);
+    try {
+      signUpMutation.mutate(values, {
+        onSuccess: (res) => {
+          console.log(res.data);
+          toast.success("Signup Successful");
+          navigate("/sign-in");
+        },
+        onError: (err) => {
+          console.error(err);
+          toast.error(err.message || "Something goes wrong usually.");
+        },
+      });
+    } catch (error) {
+      console.error(error);
+      toast.error("Something happened wrong.");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (

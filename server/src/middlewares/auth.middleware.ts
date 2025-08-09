@@ -1,12 +1,25 @@
-import { FastifyReply, FastifyRequest } from "fastify";
+import { getUser } from "../utils/jwt";
+import { FastifyReply, FastifyRequest, HookHandlerDoneFunction } from "fastify";
 
 export const authMiddleware = (
   request: FastifyRequest,
-  reply: FastifyReply
+  reply: FastifyReply,
+  done: HookHandlerDoneFunction
 ) => {
-  const cookie = request.cookies.token;
+  const token = request.cookies.token;
 
-  if (!cookie) {
-    return reply.status(401).send("Unauthorized. No cookie.");
+  if (!token) {
+    reply.status(401).send({ error: "Unauthorized. No cookie." });
+    return;
   }
+
+  const { user } = getUser(token);
+
+  if (user == null) {
+    reply.status(401).send({ error: "Cookie Expired." });
+    return;
+  }
+
+  request.user = user;
+  done();
 };

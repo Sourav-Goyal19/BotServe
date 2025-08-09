@@ -4,11 +4,11 @@ import SignIn from "./components/sign-in";
 import SignUp from "./components/sign-up";
 // import Sidebar from "./components/sidebar";
 import HomeChat from "./components/home-chat";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 
 function App() {
   return (
-    <Router>
+    <div>
       <div className="h-screen w-full flex flex-col bg-background">
         {/* <Header /> */}
 
@@ -22,7 +22,7 @@ function App() {
           </Routes>
         </div>
       </div>
-    </Router>
+    </div>
   );
 }
 

@@ -1,7 +1,10 @@
 import { z } from "zod";
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
+import { axiosIns } from "@/lib/axios";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import { useMutation } from "@tanstack/react-query";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Form,
@@ -15,12 +18,17 @@ import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 
 const SignIn = () => {
+  const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
 
   const formSchema = z.object({
     email: z.email("Invalid Email").min(1, "Email is Required"),
     password: z.string().min(6, "Password must be atleast 6 characters long"),
   });
+
+  useEffect(() => {
+    console.log(document.cookie);
+  }, []);
 
   type FormType = z.infer<typeof formSchema>;
 
@@ -32,9 +40,41 @@ const SignIn = () => {
     resolver: zodResolver(formSchema),
   });
 
+  const loginMutation = useMutation({
+    mutationFn: async (values: FormType) => {
+      const res = await axiosIns.post("/api/user/login", {
+        ...values,
+      });
+
+      return res;
+    },
+  });
+
   const onSubmit = (values: FormType) => {
     setIsLoading(true);
     console.log(values);
+    try {
+      loginMutation.mutate(values, {
+        onSuccess: (res) => {
+          console.log(res.data);
+          toast.success("Login Successful");
+          navigate("/");
+        },
+        onError: (err: any) => {
+          console.error(err);
+          toast.error(
+            err?.message ||
+              err?.response.data.error ||
+              "Something goes wrong usually."
+          );
+        },
+      });
+    } catch (error) {
+      console.error(error);
+      toast.error("Something happened wrong.");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
