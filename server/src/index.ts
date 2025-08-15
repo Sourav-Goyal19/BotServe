@@ -2,9 +2,10 @@ import cors from "cors";
 import dotenv from "dotenv";
 import Fastify from "fastify";
 import fastifyCookie from "@fastify/cookie";
-import fastifyExpress from "@fastify/express";
+import keyRoutes from "./routes/keys.route";
 import userRoutes from "./routes/auth.route";
-import keyRoutes from "./routes/key.route";
+import fastifyExpress from "@fastify/express";
+import projectRoutes from "./routes/projects.route";
 
 const PORT = 5000;
 
@@ -29,8 +30,9 @@ fastify.register(fastifyExpress).after(() => {
   );
 });
 
-fastify.register(userRoutes, { prefix: "/api/user" });
 fastify.register(keyRoutes, { prefix: "/api/keys" });
+fastify.register(userRoutes, { prefix: "/api/users" });
+fastify.register(projectRoutes, { prefix: "/api/projects" });
 
 const start = async () => {
   try {

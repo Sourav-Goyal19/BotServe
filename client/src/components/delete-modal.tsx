@@ -8,27 +8,27 @@ import { Button } from "./ui/button";
 import { TriangleAlert } from "lucide-react";
 
 interface ModalProps {
+  data: any;
   isOpen: boolean;
-  onClose: () => void;
   title?: string;
+  onClose: () => void;
   isLoading?: boolean;
   onDelete: (data: any) => void;
-  data: any;
 }
 
 export const DeleteModal: React.FC<ModalProps> = ({
+  data,
   title,
   isOpen,
   onClose,
   isLoading,
   onDelete,
-  data,
 }) => {
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>{title}</DialogTitle>
+          <DialogTitle className="capitalize">{title}</DialogTitle>
         </DialogHeader>
         <div className="flex gap-3">
           <div className="w-fit bg-destructive rounded-full p-2 h-fit">

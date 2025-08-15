@@ -41,7 +41,7 @@ const SignUp = () => {
 
   const signUpMutation = useMutation({
     mutationFn: async (values: FormType) => {
-      const res = await axiosIns.post("/api/user/signup", {
+      const res = await axiosIns.post("/api/users/signup", {
         ...values,
       });
 

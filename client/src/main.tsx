@@ -2,10 +2,10 @@ import "./index.css";
 import App from "./App.tsx";
 import { Toaster } from "react-hot-toast";
 import { createRoot } from "react-dom/client";
+import Middleware from "./components/middleware.tsx";
+import { BrowserRouter as Router } from "react-router-dom";
 import { ThemeProvider } from "./components/theme-provider.tsx";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter as Router } from "react-router-dom";
-import Middleware from "./components/middleware.tsx";
 
 const queryClient = new QueryClient();
 

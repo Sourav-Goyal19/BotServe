@@ -42,7 +42,7 @@ const SignIn = () => {
 
   const loginMutation = useMutation({
     mutationFn: async (values: FormType) => {
-      const res = await axiosIns.post("/api/user/login", {
+      const res = await axiosIns.post("/api/users/login", {
         ...values,
       });
 

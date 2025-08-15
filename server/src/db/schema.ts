@@ -20,12 +20,36 @@ export const usersTable = pgTable("users", {
 });
 
 export const userRelations = relations(usersTable, ({ many }) => ({
+  projects: many(projectsTable),
   apiKeys: many(apikeysTable),
 }));
 
 export const userSchema = createInsertSchema(usersTable);
 
 export type UserType = z.infer<typeof userSchema>;
+
+export const projectsTable = pgTable("projects", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  name: text("name").notNull(),
+  userId: uuid("user_id")
+    .references(() => usersTable.id, {
+      onDelete: "cascade",
+    })
+    .notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const projectsRelations = relations(projectsTable, ({ one }) => ({
+  user: one(usersTable, {
+    fields: [projectsTable.userId],
+    references: [usersTable.id],
+  }),
+}));
+
+export const projectsSchema = createInsertSchema(projectsTable);
+
+export type ProjectType = z.infer<typeof projectsSchema>;
 
 export const apikeysTable = pgTable("api_keys", {
   id: uuid("id").defaultRandom().primaryKey(),

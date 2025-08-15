@@ -69,7 +69,7 @@ const ApiKeys = () => {
   return (
     <div className="space-y-6">
       <Heading
-        heading="API Keys"
+        title="API Keys"
         subheading="Your API keys to access your chatbots"
       >
         <Button onClick={() => setIsGenerateModalOpen(true)}>
@@ -112,6 +112,7 @@ const ApiKeys = () => {
       {isDeleteModalOpen && selectedKey && (
         <DeleteModal
           key={selectedKey.id}
+          title={selectedKey.name}
           isOpen={isDeleteModalOpen}
           onClose={() => {
             setSelectedKey(null);

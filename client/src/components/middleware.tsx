@@ -12,7 +12,7 @@ const Middleware = () => {
   useEffect(() => {
     const getUser = async () => {
       try {
-        const res = await axiosIns.get("/api/user/one");
+        const res = await axiosIns.get("/api/users/one");
         setUser(res.data.user as UserType);
 
         if (

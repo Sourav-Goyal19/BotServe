@@ -1,11 +1,11 @@
 interface HeadingProps {
-  heading: string;
+  title: string;
   subheading?: string;
   children?: React.ReactNode;
 }
 
 export const Heading: React.FC<HeadingProps> = ({
-  heading,
+  title,
   subheading,
   children,
 }) => {
@@ -14,7 +14,7 @@ export const Heading: React.FC<HeadingProps> = ({
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-xl md:text-2xl lg:text-3xl text-primary font-semibold tracking-wide">
-            {heading}
+            {title}
           </h1>
           {subheading && (
             <h4 className="text-accent-foreground mt-0.5 text-sm">

@@ -1,22 +1,23 @@
 import Logo from "@/components/logo";
 import { cn } from "@/lib/utils";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 
 const Sidebar = () => {
+  const params = useParams();
   const location = useLocation();
 
   const links = [
     {
       name: "Overview",
-      to: "/dashboard",
+      to: `/project/${params.projectId}`,
     },
     {
       name: "Quick Start",
-      to: "/dashboard/start",
+      to: `/project/${params.projectId}/start`,
     },
     {
       name: "API Keys",
-      to: "/dashboard/api-keys",
+      to: `/project/${params.projectId}/api-keys`,
     },
   ];
 
