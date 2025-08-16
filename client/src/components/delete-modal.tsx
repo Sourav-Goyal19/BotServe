@@ -5,7 +5,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Button } from "./ui/button";
-import { TriangleAlert } from "lucide-react";
+import { CookingPot } from "lucide-react";
 
 interface ModalProps {
   data: any;
@@ -32,7 +32,7 @@ export const DeleteModal: React.FC<ModalProps> = ({
         </DialogHeader>
         <div className="flex gap-3">
           <div className="w-fit bg-destructive rounded-full p-2 h-fit">
-            <TriangleAlert className="size-6 text-primary-foreground" />
+            <CookingPot className="size-6 text-primary-foreground" />
           </div>
           <div>
             <p className="text-lg font-medium">Delete {title}</p>
