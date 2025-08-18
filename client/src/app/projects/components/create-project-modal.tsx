@@ -93,7 +93,7 @@ export const CreateProjectModal: React.FC<CreateProjectModalProps> = ({
             <Button
               type="button"
               disabled={createMutation.isPending}
-              variant="secondary"
+              variant="outline"
             >
               Cancel
             </Button>

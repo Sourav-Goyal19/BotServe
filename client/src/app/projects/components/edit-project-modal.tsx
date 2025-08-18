@@ -111,7 +111,7 @@ export const EditProjectModal: React.FC<EditProjectModalProps> = ({
             <Button
               type="button"
               disabled={editMutation.isPending}
-              variant="secondary"
+              variant="outline"
               onClick={() => setIsModalOpen(false)}
             >
               Cancel

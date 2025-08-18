@@ -31,8 +31,8 @@ export const DeleteModal: React.FC<ModalProps> = ({
           <DialogTitle className="capitalize">{title}</DialogTitle>
         </DialogHeader>
         <div className="flex gap-3">
-          <div className="w-fit bg-destructive rounded-full p-2 h-fit">
-            <CookingPot className="size-6 text-primary-foreground" />
+          <div className="w-fit bg-destructive dark:bg-destructive/70 rounded-full p-2 h-fit">
+            <CookingPot className="size-6 text-primary-foreground dark:text-foreground" />
           </div>
           <div>
             <p className="text-lg font-medium">Delete {title}</p>

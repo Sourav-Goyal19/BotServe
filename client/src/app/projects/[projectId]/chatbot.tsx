@@ -6,12 +6,15 @@ import { motion, AnimatePresence } from "framer-motion";
 const Chatbot = () => {
   const [isOpen, setIsOpen] = useState(false);
   const popupRef = useRef<HTMLDivElement>(null);
+  const buttonRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
         popupRef.current &&
-        !popupRef.current.contains(event.target as Node)
+        !popupRef.current.contains(event.target as Node) &&
+        buttonRef.current &&
+        !buttonRef.current.contains(event.target as Node)
       ) {
         setIsOpen(false);
       }
@@ -22,11 +25,12 @@ const Chatbot = () => {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [isOpen]);
+  }, []);
 
   return (
     <div className="fixed bottom-7 right-7">
       <div
+        ref={buttonRef}
         onClick={() => setIsOpen((prev) => !prev)}
         className="size-12 p-2 rounded-full bg-primary flex items-center justify-center cursor-pointer relative"
       >

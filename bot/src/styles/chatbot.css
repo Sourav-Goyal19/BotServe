@@ -1,0 +1,54 @@
+.chatbot-container {
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+}
+
+.chatbot-toggle-button {
+  position: relative;
+  width: 48px;
+  height: 48px;
+  padding: 8px;
+  border-radius: 9999px;
+  background-color: #3b82f6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.chatbot-icon-wrapper {
+  transition: transform 0.3s ease;
+}
+
+.chatbot-icon-wrapper.rotated {
+  transform: rotate(180deg);
+}
+
+.chatbot-icon {
+  width: 24px;
+  height: 24px;
+  color: white;
+}
+
+.chatbot-popup {
+  position: absolute;
+  bottom: 80px;
+  right: 0;
+  width: 288px;
+  height: 384px;
+  background-color: #ffffff;
+  border: 1px solid #3b82f6;
+  border-radius: 12px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  opacity: 0;
+  transform: translateY(20px);
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.chatbot-popup-show {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
